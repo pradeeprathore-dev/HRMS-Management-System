@@ -21,7 +21,7 @@
         </h2>
 
         <p class="text-muted mb-0">
-            Total Employees :
+            Employees on this page :
             <strong>@Model.Count</strong>
         </p>
 
@@ -106,7 +106,7 @@
 <br />
 <br />
 
-<h3>Total Employees: @Model.Count</h3>
+<h3>Employees on this page: @Model.Count</h3>
 
 <div class="card shadow-sm">
 
@@ -147,19 +147,29 @@
                 <td>@emp.Department</td>
                 <td>@emp.Designation</td>
                 <td>@emp.Salary</td>
-                <td>
+                        <td>
 
-                    @if (!string.IsNullOrEmpty(emp.ProfileImage))
-                    {
-                        <img src="@emp.ProfileImage"
-                             width="55"
-                             height="55"
+                            @if (!string.IsNullOrEmpty(emp.ProfileImage))
+                            {
+                                <img src="@emp.ProfileImage"
+                                     alt="@emp.FirstName @emp.LastName"
+                                     width="55"
+                                     height="55"
                                      class="shadow"
-                             style="border-radius:50%;
-                        object-fit:cover;" />
-                    }
+                                     style="border-radius:50%;
+                                object-fit:cover;" />
+                            }
+                            else
+                            {
+                                <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center"
+                                     style="width:55px; height:55px;">
 
-                </td>
+                                    <i class="bi bi-person text-secondary fs-4"></i>
+
+                                </div>
+                            }
+
+                        </td>
                 <td>
 
                     <a asp-action="Profile"

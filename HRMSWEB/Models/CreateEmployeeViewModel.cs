@@ -21,7 +21,7 @@ namespace HRMSWEB.Models
         public IFormFile ImageFile { get; set; }
 
         public string ProfileImage { get; set; }
-        public int ShiftId { get; set; }
+        public int? ShiftId { get; set; }
 
         public List<SelectListItem> Shifts { get; set; } = new();
 
