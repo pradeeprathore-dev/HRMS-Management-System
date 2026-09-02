@@ -1,0 +1,108 @@
+﻿@model HRMSWEB.Models.CreatePayrollViewModel
+
+<h2>Generate Payroll</h2>
+
+<form asp-action="Create"
+      method="post">
+
+    <div class="mb-3">
+
+        <label>
+            Employee
+        </label>
+
+        <select asp-for="EmployeeId"
+                asp-items="Model.Employees"
+                class="form-control">
+
+            <option value="">
+                Select Employee
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>
+            Month
+        </label>
+
+        <input asp-for="Month"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>
+            Year
+        </label>
+
+        <input asp-for="Year"
+               class="form-control" />
+
+    </div>
+
+    @* <div class="mb-3">
+
+        <label>
+            Basic Salary
+        </label>
+
+        <input asp-for="BasicSalary"
+               class="form-control" />
+
+    </div> *@
+
+    @* <div class="mb-3">
+
+        <label>
+            HRA
+        </label>
+
+        <input asp-for="HRA"
+               class="form-control" />
+
+    </div> *@
+
+  @*   <div class="mb-3">
+
+        <label>
+            Bonus
+        </label>
+
+        <input asp-for="Bonus"
+               class="form-control" />
+
+    </div> *@
+
+    @* <div class="mb-3">
+
+        <label>
+            Deduction
+        </label>
+
+        <input asp-for="Deduction"
+               class="form-control" />
+
+    </div> *@
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Generate Payroll
+
+    </button>
+
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger mt-3">
+
+        @ViewBag.Error
+
+    </div>
+}

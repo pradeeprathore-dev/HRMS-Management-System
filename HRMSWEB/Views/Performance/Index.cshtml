@@ -1,0 +1,193 @@
+﻿@model List<HRMSWEB.Models.PerformanceReviewViewModel>
+
+@{
+    ViewData["Title"] = "Performance Reviews";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+
+            <i class="bi bi-graph-up-arrow text-primary me-2"></i>
+
+            Performance Management
+
+        </h2>
+
+        <p class="text-muted mb-0">
+
+            Total Reviews :
+            <strong>@Model.Count</strong>
+
+        </p>
+
+    </div>
+
+    <a asp-action="Create"
+       class="btn btn-primary shadow-sm">
+
+        <i class="bi bi-plus-circle-fill me-2"></i>
+
+        Add Review
+
+    </a>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th>Rating</th>
+
+                        <th>Reviewer</th>
+
+                        <th>Comments</th>
+
+                        <th>Review Date</th>
+
+                        <th>Promotion</th>
+
+                        <th width="150">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <i class="bi bi-person-fill text-primary me-2"></i>
+
+                                    @item.EmployeeName
+
+                                </td>
+
+                                <td>
+
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= item.Rating)
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-secondary"></i>
+                                        }
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @item.Reviewer
+
+                                </td>
+
+                                <td>
+
+                                    @item.Comments
+
+                                </td>
+
+                                <td>
+
+                                    @item.ReviewDate.ToString("dd MMM yyyy")
+
+                                </td>
+
+                                <td>
+
+                                    @if (item.PromotionRecommended)
+                                    {
+                                        <span class="badge bg-success">
+
+                                            <i class="bi bi-check-circle-fill me-1"></i>
+
+                                            Recommended
+
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+
+                                            <i class="bi bi-x-circle-fill me-1"></i>
+
+                                            Not Recommended
+
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-warning btn-sm me-1">
+
+                                        <i class="bi bi-pencil-fill"></i>
+
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-danger btn-sm">
+
+                                        <i class="bi bi-trash-fill"></i>
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center text-muted py-4">
+
+                                <i class="bi bi-inbox-fill fs-3 d-block mb-2"></i>
+
+                                No Performance Reviews Found
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

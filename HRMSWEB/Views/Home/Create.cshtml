@@ -1,0 +1,124 @@
+﻿@model HRMSWEB.Models.CreateEmployeeViewModel
+
+<h2>Create Employee</h2>
+
+<form asp-action="Create"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div class="mb-3">
+
+        <label>First Name</label>
+
+        <input asp-for="FirstName"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Last Name</label>
+
+        <input asp-for="LastName"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Email</label>
+
+        <input asp-for="Email"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Department</label>
+
+        <select asp-for="DepartmentId"
+                asp-items="Model.Departments"
+                class="form-control">
+
+            <option value="">
+                Select Department
+            </option>
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Designation</label>
+
+        <select asp-for="DesignationId"
+                asp-items="Model.Designations"
+                class="form-control">
+
+            <option value="">
+                Select Designation
+            </option>
+
+        </select>
+
+    </div>
+    
+    <div class="col-md-6 mb-3">
+
+        <label asp-for="ShiftId" class="form-label">
+            Shift
+        </label>
+
+        <select asp-for="ShiftId"
+                asp-items="Model.Shifts"
+                class="form-select">
+
+            <option value="">-- Select Shift --</option>
+
+        </select>
+
+        <span asp-validation-for="ShiftId"
+              class="text-danger"></span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>Salary</label>
+
+        <input asp-for="Salary"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label>
+            Profile Image
+        </label>
+
+        <input asp-for="ImageFile"
+               type="file"
+               class="form-control" />
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Save
+
+    </button>
+
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="text-danger mt-3">
+
+        @ViewBag.Error
+
+    </div>
+}

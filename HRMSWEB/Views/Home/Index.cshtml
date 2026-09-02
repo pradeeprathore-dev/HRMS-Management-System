@@ -1,0 +1,228 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    var role =
+        Context.Session.GetString("Role");
+}
+
+@model List<HRMSWEB.Models.EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            <i class="bi bi-people-fill text-primary me-2"></i>
+            Employee Management
+        </h2>
+
+        <p class="text-muted mb-0">
+            Total Employees :
+            <strong>@Model.Count</strong>
+        </p>
+
+    </div>
+
+    @if (role == "1")
+    {
+        <a asp-action="Create"
+           class="btn btn-primary shadow-sm">
+
+            <i class="bi bi-person-plus-fill me-2"></i>
+
+            Add Employee
+
+        </a>
+    }
+
+</div>
+<div class="mb-3">
+
+    <a asp-action="DownloadPdf"
+       class="btn btn-danger me-2">
+
+        <i class="bi bi-file-earmark-pdf-fill me-1"></i>
+
+        PDF
+
+    </a>
+
+    <a asp-action="DownloadExcel"
+       class="btn btn-success">
+
+        <i class="bi bi-file-earmark-excel-fill me-1"></i>
+
+        Excel
+
+    </a>
+
+</div>
+
+<br />
+<br />
+
+
+<form method="get"
+      class="row g-2 mb-4">
+
+    <div class="col-md-4">
+
+        <input type="text"
+               class="form-control"
+               name="searchText"
+               value="@ViewBag.SearchText"
+               placeholder="🔍 Search employee..." />
+
+    </div>
+
+    <div class="col-auto">
+
+        <button class="btn btn-primary">
+
+            <i class="bi bi-search"></i>
+
+            Search
+
+        </button>
+
+    </div>
+
+</form>
+
+<br />
+
+@if (role == "1")
+{
+    <a asp-action="Create"
+       class="btn btn-primary">
+        Add Employee
+    </a>
+}
+
+<br />
+<br />
+
+<h3>Total Employees: @Model.Count</h3>
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-0">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Salary</th>
+            <th>Profile</th>
+            <th>View</th>
+
+            @if (role == "1")
+            {
+                <th>Action</th>
+            }
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var emp in Model)
+        {
+            <tr>
+
+                <td>@emp.Id</td>
+                <td>@emp.FirstName</td>
+                <td>@emp.LastName</td>
+                <td>@emp.Email</td>
+                <td>@emp.Department</td>
+                <td>@emp.Designation</td>
+                <td>@emp.Salary</td>
+                <td>
+
+                    @if (!string.IsNullOrEmpty(emp.ProfileImage))
+                    {
+                        <img src="@emp.ProfileImage"
+                             width="55"
+                             height="55"
+                                     class="shadow"
+                             style="border-radius:50%;
+                        object-fit:cover;" />
+                    }
+
+                </td>
+                <td>
+
+                    <a asp-action="Profile"
+                       asp-route-id="@emp.Id"
+                       class="btn btn-info">
+
+                                <i class="bi bi-eye-fill"></i>
+
+                    </a>
+
+                </td>
+
+                @if (role == "1")
+                {
+                    <td>
+
+                        <a asp-action="Edit"
+                           asp-route-id="@emp.Id"
+                           class="btn btn-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                        </a>
+
+                        <a asp-action="Delete"
+                           asp-route-id="@emp.Id"
+                           class="btn btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                        </a>
+
+                    </td>
+                }
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+    </div>
+
+</div>
+
+<br />
+
+<div class="mt-4 d-flex justify-content-between">
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(ViewBag.PageNumber - 1)"
+       class="btn btn-outline-secondary">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Previous
+
+    </a>
+
+    <a asp-action="Index"
+       asp-route-pageNumber="@(ViewBag.PageNumber + 1)"
+       class="btn btn-outline-primary">
+
+        Next
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+</div>

@@ -1,0 +1,630 @@
+﻿@model HRMSWEB.Models.DashboardPageViewModel
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container-fluid mt-4">
+    @if (ViewBag.Role == "2")
+    {
+        <div class="alert alert-primary shadow-sm mb-4">
+
+            <h4 class="mb-2">
+                <i class="bi bi-person-circle me-2"></i>
+                Employee Dashboard
+            </h4>
+
+            <p class="mb-0">
+                Welcome! Use the quick links below to manage your attendance,
+                leaves, payroll and notifications.
+            </p>
+
+        </div>
+
+        <div class="row mb-4">
+
+            <div class="col-md-3 mb-3">
+                <a asp-controller="Attendance"
+                   asp-action="Index"
+                   asp-route-employeeId="@ViewBag.EmployeeId"
+                   class="btn btn-primary w-100">
+                    Attendance
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a asp-controller="Leave"
+                   asp-action="MyLeaves"
+                   asp-route-employeeId="@ViewBag.EmployeeId"
+                   class="btn btn-success w-100">
+                    My Leaves
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a asp-controller="Payroll"
+                   asp-action="MyPayrolls"
+                   asp-route-employeeId="@ViewBag.EmployeeId"
+                   class="btn btn-warning w-100">
+                    My Payroll
+                </a>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <a asp-controller="Notification"
+                   asp-action="Index"
+                   class="btn btn-info w-100 text-white">
+                    Notifications
+                </a>
+            </div>
+
+        </div>
+    }
+
+    <h2 class="mb-4 fw-bold">
+        HRMS Dashboard
+    </h2>
+
+    <!-- ========================= -->
+    <!-- DASHBOARD CARDS -->
+    <!-- ========================= -->
+
+    <div class="row g-3">
+
+        <!-- Total Employees -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-primary text-white">
+
+                <div class="card-body">
+
+                    <h6>Total Employees</h6>
+
+                    <h2>@Model.Summary.TotalEmployees</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Departments -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-success text-white">
+
+                <div class="card-body">
+
+                    <h6>Total Departments</h6>
+
+                    <h2>@Model.Summary.TotalDepartments</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pending Leaves -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-warning">
+
+                <div class="card-body">
+
+                    <h6>Pending Leaves</h6>
+
+                    <h2>@Model.Summary.PendingLeaves</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Present Today -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-info text-white">
+
+                <div class="card-body">
+
+                    <h6>Present Today</h6>
+
+                    <h2>@Model.Summary.PresentToday</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Late Today -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-secondary text-white">
+
+                <div class="card-body">
+
+                    <h6>Late Today</h6>
+
+                    <h2>@Model.Summary.LateToday</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Absent -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-danger text-white">
+
+                <div class="card-body">
+
+                    <h6>Absent Today</h6>
+
+                    <h2>@Model.Summary.AbsentToday</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pending Payroll -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-dark text-white">
+
+                <div class="card-body">
+
+                    <h6>Pending Payrolls</h6>
+
+                    <h2>@Model.Summary.PendingPayrolls</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Holiday -->
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow border-0 bg-primary text-white">
+
+                <div class="card-body">
+
+                    <h6>Today's Holiday</h6>
+
+                    <h5>@Model.Summary.TodayHoliday</h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <hr class="my-4" />
+
+    <!-- ========================= -->
+    <!-- CHARTS -->
+    <!-- ========================= -->
+
+    <div class="row">
+
+        <!-- Leave Chart -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+                        Leave Analytics
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="leaveChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Attendance Chart -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+                        Attendance Analytics
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="attendanceChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@if (Model.LeaveChart != null)
+{
+    <script>
+
+        var leaveCtx =
+            document.getElementById("leaveChart")
+                .getContext("2d");
+
+        new Chart(leaveCtx,
+            {
+                type: "pie",
+
+                data:
+                {
+                    labels:
+                        [
+                            "Pending",
+                            "Approved",
+                            "Rejected"
+                        ],
+
+                    datasets:
+                        [{
+                            data:
+                                [
+                                @Model.LeaveChart.Pending,
+                                @Model.LeaveChart.Approved,
+                                    @Model.LeaveChart.Rejected
+                                ],
+
+                            backgroundColor:
+                                [
+                                    "#ffc107",
+                                    "#28a745",
+                                    "#dc3545"
+                                ]
+                        }]
+                },
+
+                options:
+                {
+                    responsive: true,
+
+                    plugins:
+                    {
+                        legend:
+                        {
+                            position: "bottom"
+                        }
+                    }
+                }
+            });
+
+    </script>
+}
+
+@if (Model.AttendanceChart != null)
+{
+    <script>
+
+        var attendanceCtx =
+            document.getElementById("attendanceChart")
+                .getContext("2d");
+
+        new Chart(attendanceCtx,
+            {
+                type: "bar",
+
+                data:
+                {
+                    labels:
+                        [
+                            "Present",
+                            "Late",
+                            "Absent"
+                        ],
+
+                    datasets:
+                        [{
+                            label: "Employees",
+
+                            data:
+                                [
+                                @Model.AttendanceChart.Present,
+                                @Model.AttendanceChart.Late,
+                                    @Model.AttendanceChart.Absent
+                                ],
+
+                            backgroundColor:
+                                [
+                                    "#28a745",
+                                    "#fd7e14",
+                                    "#dc3545"
+                                ]
+                        }]
+                },
+
+                options:
+                {
+                    responsive: true,
+
+                    scales:
+                    {
+                        y:
+                        {
+                            beginAtZero: true
+                        }
+                    },
+
+                    plugins:
+                    {
+                        legend:
+                        {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+    </script>
+}
+<hr class="my-4" />
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+            <i class="bi bi-calendar-check me-2"></i>
+            Recent Leave Requests
+        </h5>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+                    <th>Employee</th>
+                    <th>Leave Type</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.RecentLeaves)
+                {
+                    <tr>
+
+                        <td>@item.EmployeeName</td>
+
+                        <td>@item.LeaveType</td>
+
+                        <td>
+                            @Convert.ToDateTime(item.StartDate).ToString("dd MMM")
+                            -
+                            @Convert.ToDateTime(item.EndDate).ToString("dd MMM")
+                        </td>
+
+                        <td>
+
+                            @if (item.Status == "Pending")
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+                            }
+                            else if (item.Status == "Approved")
+                            {
+                                <span class="badge bg-success">
+                                    Approved
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    Rejected
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<hr class="my-4" />
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="bi bi-people-fill me-2"></i>
+            Recently Joined Employees
+        </h5>
+    </div>
+
+    <div class="card-body p-0">
+
+        <table class="table table-hover align-middle mb-0">
+
+            <thead class="table-light">
+                <tr>
+                    <th>Photo</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Joined On</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.RecentEmployees)
+                {
+                    <tr>
+
+                        <td style="width:80px">
+
+                            <img src="https://localhost:7212@item.ProfileImage"
+                                 class="rounded-circle"
+                                 width="50"
+                                 height="50"
+                                 style="object-fit:cover;" />
+
+                        </td>
+
+                        <td>
+                            @item.FullName
+                        </td>
+
+                        <td>
+                            @item.Department
+                        </td>
+
+                        <td>
+                            @item.Designation
+                        </td>
+
+                        <td>
+                            @item.JoinedOn.ToString("dd MMM yyyy")
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<hr class="my-4" />
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-white">
+
+        <h5 class="mb-0">
+            <i class="bi bi-calendar-event me-2"></i>
+            Upcoming Holidays
+        </h5>
+
+    </div>
+
+    <div class="card-body p-0">
+
+        <table class="table table-hover mb-0">
+
+            <thead class="table-light">
+
+                <tr>
+
+                    <th>Holiday</th>
+
+                    <th>Date</th>
+
+                    <th>Description</th>
+
+                    <th>Type</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model.UpcomingHolidays)
+                {
+                    <tr>
+
+                        <td>
+
+                            @item.Name
+
+                        </td>
+
+                        <td>
+
+                            @item.Date.ToString("dd MMM yyyy")
+
+                        </td>
+
+                        <td>
+
+                            @item.Description
+
+                        </td>
+
+                        <td>
+
+                            @if (item.IsOptional)
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Optional
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">
+                                    National
+                                </span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

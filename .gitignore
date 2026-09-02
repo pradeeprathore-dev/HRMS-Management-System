@@ -1,0 +1,50 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Publish
+publish/
+
+# Packages
+*.nupkg
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Environment
+.env
+
+# App settings (contains secrets)
+**/appsettings.json
+**/appsettings.Development.json
+
+# Allow example configuration
+!**/appsettings.Example.json
+# Local configuration (do not upload)
+appsettings.Local.json
+
+# Ignore Visual Studio files
+.vs/
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.suo
+# User uploaded files
+**/wwwroot/Uploads/

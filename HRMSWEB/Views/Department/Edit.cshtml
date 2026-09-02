@@ -1,0 +1,23 @@
+﻿@model HRMSWEB.Models.DepartmentViewModel
+
+<h2>Edit Department</h2>
+
+<form method="post">
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+
+        <label>Department Name</label>
+
+        <input asp-for="Name"
+               class="form-control" />
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+        Update
+    </button>
+
+</form>

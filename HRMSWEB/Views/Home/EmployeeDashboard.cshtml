@@ -1,0 +1,146 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Employee Dashboard";
+
+    var employeeId =
+        Context.Session.GetInt32("EmployeeId");
+}
+
+<div class="container-fluid mt-4">
+
+    <h2 class="fw-bold mb-4">
+
+        <i class="bi bi-person-circle text-primary"></i>
+
+        Employee Dashboard
+
+    </h2>
+
+    <div class="alert alert-primary shadow-sm">
+
+        <h5 class="mb-2">
+
+            Welcome to HRMS
+
+        </h5>
+
+        <p class="mb-0">
+
+            Manage your attendance, leaves, payroll and profile from one place.
+
+        </p>
+
+    </div>
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Attendance"
+               asp-action="Index"
+               asp-route-employeeId="@employeeId"
+               class="btn btn-primary w-100 p-4 shadow">
+
+                <i class="bi bi-calendar-check fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>Attendance</strong>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Leave"
+               asp-action="MyLeaves"
+               asp-route-employeeId="@employeeId"
+               class="btn btn-success w-100 p-4 shadow">
+
+                <i class="bi bi-airplane fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>My Leaves</strong>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Payroll"
+               asp-action="MyPayrolls"
+               asp-route-employeeId="@employeeId"
+               class="btn btn-warning w-100 p-4 shadow">
+
+                <i class="bi bi-cash-stack fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>My Payroll</strong>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Notification"
+               asp-action="Index"
+               class="btn btn-info text-white w-100 p-4 shadow">
+
+                <i class="bi bi-bell fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>Notifications</strong>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Home"
+               asp-action="Profile"
+               asp-route-id="@employeeId"
+               class="btn btn-secondary w-100 p-4 shadow">
+
+                <i class="bi bi-person-vcard fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>My Profile</strong>
+
+            </a>
+
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+
+            <a asp-controller="Leave"
+               asp-action="Apply"
+               class="btn btn-danger w-100 p-4 shadow">
+
+                <i class="bi bi-plus-circle fs-1"></i>
+
+                <br />
+                <br />
+
+                <strong>Apply Leave</strong>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

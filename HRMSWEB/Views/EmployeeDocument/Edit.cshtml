@@ -1,0 +1,78 @@
+﻿@model HRMSWEB.Models.UpdateEmployeeDocumentViewModel
+
+@{
+    ViewData["Title"] = "Edit Document";
+}
+
+<h3>Edit Employee Document</h3>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+        <label>Employee</label>
+
+        <select asp-for="EmployeeId"
+                asp-items="Model.Employees"
+                class="form-control">
+            <option value="">Select Employee</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Document Type</label>
+
+        <input asp-for="DocumentType"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Current File</label>
+
+        <br />
+
+        <strong>@ViewBag.CurrentFile</strong>
+    </div>
+
+    <div class="mb-3">
+        <label>Select New File (Optional)</label>
+
+        <input asp-for="File"
+               class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Remarks</label>
+
+        <textarea asp-for="Remarks"
+                  class="form-control"></textarea>
+    </div>
+
+    <div class="form-check mb-3">
+
+        <input asp-for="IsVerified"
+               class="form-check-input" />
+
+        <label asp-for="IsVerified"
+               class="form-check-label">
+            Verified
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Update
+
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+
+        Back
+
+    </a>
+
+</form>

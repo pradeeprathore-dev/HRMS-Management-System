@@ -1,0 +1,21 @@
+﻿@model HRMSWEB.Models.DepartmentViewModel
+
+<h2>Add Department</h2>
+
+<form method="post">
+
+    <div class="mb-3">
+
+        <label>Department Name</label>
+
+        <input asp-for="Name"
+               class="form-control" />
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+        Save
+    </button>
+
+</form>

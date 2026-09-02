@@ -1,0 +1,192 @@
+﻿@model IEnumerable<HRMSWEB.Models.ShiftViewModel>
+
+@{
+    ViewData["Title"] = "Shift Management";
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h2 class="fw-bold">
+            <i class="bi bi-clock-history text-primary"></i>
+            Shift Management
+        </h2>
+
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Add Shift
+        </a>
+
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-2 mb-3">
+
+        <div class="col-md-4">
+
+            <input type="text"
+                   name="searchText"
+                   value="@ViewBag.SearchText"
+                   class="form-control"
+                   placeholder="Search Shift..." />
+
+        </div>
+
+        <div class="col-auto">
+
+            <button class="btn btn-success">
+
+                <i class="bi bi-search"></i>
+
+                Search
+
+            </button>
+
+        </div>
+
+        <div class="col-auto">
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                Reset
+
+            </a>
+
+        </div>
+
+    </form>
+
+    <div class="card shadow">
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover table-bordered align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Shift Name</th>
+
+                        <th>Start Time</th>
+
+                        <th>End Time</th>
+
+                        <th>Grace</th>
+
+                        <th>Half Day</th>
+
+                        <th>Status</th>
+
+                        <th width="170">Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.Id</td>
+
+                                <td>@item.ShiftName</td>
+
+                                <td>@item.StartTime</td>
+
+                                <td>@item.EndTime</td>
+
+                                <td>@item.GraceMinutes Min</td>
+
+                                <td>@item.HalfDayTime</td>
+
+                                <td>
+
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge bg-success">
+                                            Active
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">
+                                            Inactive
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    <a asp-action="Edit"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-warning btn-sm">
+
+                                        <i class="bi bi-pencil-square"></i>
+
+                                    </a>
+
+                                    <form asp-action="Delete"
+                                          asp-route-id="@item.Id"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <button type="submit"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Delete this Shift?');">
+
+                                            <i class="bi bi-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="8"
+                                class="text-center text-danger fw-bold">
+
+                                No Shift Found.
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,211 @@
+﻿@model HRMSWEB.Models.CreateEmployeeOnboardingViewModel
+
+@{
+    ViewData["Title"] = "Create Employee Onboarding";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3>
+
+                <i class="bi bi-person-plus-fill"></i>
+
+                Employee Onboarding
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3">
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Employee
+
+                        </label>
+
+                        <select asp-for="EmployeeId"
+                                asp-items="Model.Employees"
+                                class="form-select">
+
+                            <option value="">-- Select Employee --</option>
+
+                        </select>
+
+                        <span asp-validation-for="EmployeeId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Joining Date
+
+                        </label>
+
+                        <input asp-for="JoiningDate"
+                               type="date"
+                               class="form-control" />
+
+                        <span asp-validation-for="JoiningDate"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Official Email
+
+                        </label>
+
+                        <input asp-for="OfficialEmail"
+                               class="form-control"
+                               placeholder="Official Email" />
+
+                        <span asp-validation-for="OfficialEmail"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+
+                            Seat Number
+
+                        </label>
+
+                        <input asp-for="SeatNumber"
+                               class="form-control"
+                               placeholder="Seat Number" />
+
+                        <span asp-validation-for="SeatNumber"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-check">
+
+                            <input asp-for="ManagerAssigned"
+                                   class="form-check-input" />
+
+                            <label asp-for="ManagerAssigned"
+                                   class="form-check-label">
+
+                                Manager Assigned
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <div class="form-check">
+
+                            <input asp-for="IdCardGenerated"
+                                   class="form-check-input" />
+
+                            <label asp-for="IdCardGenerated"
+                                   class="form-check-label">
+
+                                ID Card Generated
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br />
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <div class="form-check">
+
+                            @* <input asp-for="IsCompleted"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsCompleted"
+                                   class="form-check-label"> *@
+
+                                Completed
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <br />
+
+                <button type="submit"
+                        class="btn btn-success">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Save
+
+                </button>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    <i class="bi bi-arrow-left-circle-fill"></i>
+
+                    Back
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

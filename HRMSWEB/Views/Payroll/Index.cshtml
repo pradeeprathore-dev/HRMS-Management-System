@@ -1,0 +1,223 @@
+﻿@model List<HRMSWEB.Models.PayrollViewModel>
+
+@{
+    ViewData["Title"] = "Payroll List";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+
+            <i class="bi bi-cash-stack text-primary me-2"></i>
+
+            Payroll Management
+
+        </h2>
+
+        <p class="text-muted mb-0">
+
+            Total Payrolls :
+            <strong>@Model.Count</strong>
+
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Employee</th>
+
+                        <th>Month</th>
+
+                        <th>Year</th>
+
+                        <th>Basic</th>
+
+                        <th>HRA</th>
+
+                        <th>Bonus</th>
+
+                        <th>Deduction</th>
+
+                        <th>Net Salary</th>
+
+                        <th>Status</th>
+
+                        <th>Payment Date</th>
+
+                        <th>Transaction</th>
+
+                        <th width="170">Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+
+                                <i class="bi bi-person-fill text-primary me-1"></i>
+
+                                @item.EmployeeName
+
+                            </td>
+
+                            <td>@item.Month</td>
+
+                            <td>@item.Year</td>
+
+                            <td>₹ @item.BasicSalary</td>
+
+                            <td>₹ @item.HRA</td>
+
+                            <td class="text-success fw-bold">
+
+                                ₹ @item.Bonus
+
+                            </td>
+
+                            <td class="text-danger fw-bold">
+
+                                ₹ @item.Deduction
+
+                            </td>
+
+                            <td class="fw-bold text-primary">
+
+                                ₹ @item.NetSalary
+
+                            </td>
+
+                            <td>
+
+                                @if (item.Status == "Draft")
+                                {
+                                    <span class="badge bg-secondary">
+
+                                        Draft
+
+                                    </span>
+                                }
+                                else if (item.Status == "Approved")
+                                {
+                                    <span class="badge bg-warning text-dark">
+
+                                        Approved
+
+                                    </span>
+                                }
+                                else if (item.Status == "Paid")
+                                {
+                                    <span class="badge bg-success">
+
+                                        Paid
+
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-dark">
+
+                                        Unknown
+
+                                    </span>
+                                }
+
+                            </td>
+
+                            <td>
+
+                                @(item.PaymentDate?.ToString("dd MMM yyyy") ?? "-")
+
+                            </td>
+
+                            <td>
+
+                                @(string.IsNullOrEmpty(item.TransactionId)
+                                    ? "-"
+                                    : item.TransactionId)
+
+                            </td>
+
+                            <td>
+
+                                @if (item.Status == "Draft")
+                                {
+                                    <form asp-action="Approve"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.Id" />
+
+                                        <button class="btn btn-warning btn-sm">
+
+                                            <i class="bi bi-check-circle-fill"></i>
+
+                                        </button>
+
+                                    </form>
+                                }
+                                else if (item.Status == "Approved")
+                                {
+                                    <form asp-action="MarkPaid"
+                                          method="post"
+                                          style="display:inline;">
+
+                                        <input type="hidden"
+                                               name="id"
+                                               value="@item.Id" />
+
+                                        <button class="btn btn-success btn-sm">
+
+                                            <i class="bi bi-cash-coin"></i>
+
+                                        </button>
+
+                                    </form>
+                                }
+                                else if (item.Status == "Paid")
+                                {
+                                    <a asp-action="DownloadPayslip"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-primary btn-sm">
+
+                                        <i class="bi bi-download"></i>
+
+                                    </a>
+                                }
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

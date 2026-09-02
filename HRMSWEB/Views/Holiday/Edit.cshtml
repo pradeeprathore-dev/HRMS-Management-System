@@ -1,0 +1,99 @@
+﻿@model HRMSWEB.Models.UpdateHolidayViewModel
+
+@{
+    ViewData["Title"] = "Edit Holiday";
+}
+<input asp-for="Id" type="hidden" />
+
+<h2 class="mb-3">Edit Holiday</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Holiday Name
+        </label>
+
+        <input asp-for="Name"
+               class="form-control" />
+
+        <span asp-validation-for="Name"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Holiday Date
+        </label>
+
+        <input asp-for="Date"
+               type="date"
+               class="form-control" />
+
+        <span asp-validation-for="Date"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Description
+        </label>
+
+        <textarea asp-for="Description"
+                  class="form-control"
+                  rows="4">
+        </textarea>
+
+    </div>
+
+    <div class="form-check mb-3">
+
+        <input asp-for="IsOptional"
+               class="form-check-input" />
+
+        <label asp-for="IsOptional"
+               class="form-check-label">
+
+            Optional Holiday
+
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-success">
+
+        Save Holiday
+
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+
+        Back
+
+    </a>
+
+</form>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

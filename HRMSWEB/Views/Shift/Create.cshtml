@@ -1,0 +1,151 @@
+﻿@model HRMSWEB.Models.CreateShiftViewModel
+
+@{
+    ViewData["Title"] = "Create Shift";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                <i class="bi bi-clock-history"></i>
+                Create Shift
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="ShiftName"
+                               class="form-label"></label>
+
+                        <input asp-for="ShiftName"
+                               class="form-control" />
+
+                        <span asp-validation-for="ShiftName"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="GraceMinutes"
+                               class="form-label"></label>
+
+                        <input asp-for="GraceMinutes"
+                               type="number"
+                               min="0"
+                               max="60"
+                               class="form-control" />
+
+                        <span asp-validation-for="GraceMinutes"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="StartTime"
+                               class="form-label"></label>
+
+                        <input asp-for="StartTime"
+                               type="time"
+                               class="form-control" />
+
+                        <span asp-validation-for="StartTime"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="EndTime"
+                               class="form-label"></label>
+
+                        <input asp-for="EndTime"
+                               type="time"
+                               class="form-control" />
+
+                        <span asp-validation-for="EndTime"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label asp-for="HalfDayTime"
+                               class="form-label"></label>
+
+                        <input asp-for="HalfDayTime"
+                               type="time"
+                               class="form-control" />
+
+                        <span asp-validation-for="HalfDayTime"
+                              class="text-danger"></span>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3 d-flex align-items-center">
+
+                        <div class="form-check mt-4">
+
+                            <input asp-for="IsActive"
+                                   class="form-check-input" />
+
+                            <label asp-for="IsActive"
+                                   class="form-check-label">
+                                Active Shift
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Save
+
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-secondary">
+
+                        Back
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

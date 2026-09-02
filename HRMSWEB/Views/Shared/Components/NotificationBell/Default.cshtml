@@ -1,0 +1,99 @@
+﻿@model HRMSWEB.Models.NotificationBellViewModel
+
+<div class="dropdown me-3">
+
+    <button class="btn btn-light position-relative dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown">
+
+        <i class="bi bi-bell-fill fs-5"></i>
+
+        @if (Model.UnreadCount > 0)
+        {
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                @Model.UnreadCount
+
+            </span>
+        }
+
+    </button>
+
+    <ul class="dropdown-menu dropdown-menu-end shadow"
+        style="width:370px;">
+
+        <li>
+
+            <h6 class="dropdown-header">
+
+                Notifications
+
+            </h6>
+
+        </li>
+
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+
+        @if (!Model.LatestNotifications.Any())
+        {
+            <li>
+
+                <span class="dropdown-item text-muted">
+
+                    No Notifications
+
+                </span>
+
+            </li>
+        }
+        else
+        {
+            @foreach (var item in Model.LatestNotifications)
+            {
+                <li>
+
+                    <a class="dropdown-item"
+                       asp-controller="Notification"
+                       asp-action="Index">
+
+                        <strong>
+
+                            @item.Title
+
+                        </strong>
+
+                        <br />
+
+                        <small class="text-muted">
+
+                            @item.Message
+
+                        </small>
+
+                    </a>
+
+                </li>
+
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+            }
+        }
+
+        <li>
+
+            <a class="dropdown-item text-center fw-bold"
+               asp-controller="Notification"
+               asp-action="Index">
+
+                View All Notifications →
+
+            </a>
+
+        </li>
+
+    </ul>
+
+</div>

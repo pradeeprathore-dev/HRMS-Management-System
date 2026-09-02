@@ -1,0 +1,94 @@
+﻿@model List<HRMSWEB.Models.AttendanceViewModel>
+
+@using Microsoft.AspNetCore.Http
+
+@{
+    var employeeId =
+        Context.Session.GetInt32("EmployeeId");
+
+    var role =
+        Context.Session.GetString("Role");
+}
+
+<h2>Attendance</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<a asp-action="PunchIn"
+   asp-route-employeeId="@employeeId"
+   class="btn btn-success">
+    Punch In
+</a>
+
+<a asp-action="PunchOut"
+   asp-route-employeeId="@employeeId"
+   class="btn btn-danger">
+    Punch Out
+</a>
+
+<br />
+<br />
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+
+            @if (role == "1")
+            {
+                <th>Employee</th>
+            }
+
+            <th>Date</th>
+            <th>Punch In</th>
+            <th>Punch Out</th>
+            <th>Status</th>
+            <th>Working Time</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                @if (role == "1")
+                {
+                    <td>@item.EmployeeName</td>
+                }
+
+                <td>@item.Date.ToShortDateString()</td>
+
+                <td>@item.PunchIn</td>
+
+                <td>@item.PunchOut</td>
+
+                <td>@item.Status</td>
+
+                <td>
+                    @if (item.PunchOut.HasValue)
+                    {
+                        var hours = item.WorkingMinutes / 60;
+                        var minutes = item.WorkingMinutes % 60;
+
+                        @($"{hours}h {minutes}m")
+                    }
+                    else
+                    {
+                        <span>In Progress</span>
+                    }
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

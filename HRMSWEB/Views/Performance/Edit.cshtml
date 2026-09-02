@@ -1,0 +1,100 @@
+﻿@model HRMSWEB.Models.UpdatePerformanceReviewViewModel
+
+@{
+    ViewData["Title"] = "Edit Performance Review";
+}
+
+<h2 class="mb-4">Edit Performance Review</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form asp-action="Edit" method="post">
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Rating
+        </label>
+
+        <select asp-for="Rating"
+                class="form-select">
+
+            <option value="1">1 ★</option>
+            <option value="2">2 ★★</option>
+            <option value="3">3 ★★★</option>
+            <option value="4">4 ★★★★</option>
+            <option value="5">5 ★★★★★</option>
+
+        </select>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Reviewer
+        </label>
+
+        <input asp-for="Reviewer"
+               class="form-control" />
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Comments
+        </label>
+
+        <textarea asp-for="Comments"
+                  class="form-control"
+                  rows="4"></textarea>
+
+    </div>
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Review Date
+        </label>
+
+        <input asp-for="ReviewDate"
+               type="date"
+               class="form-control" />
+
+    </div>
+
+    <div class="form-check mb-3">
+
+        <input asp-for="PromotionRecommended"
+               class="form-check-input" />
+
+        <label asp-for="PromotionRecommended"
+               class="form-check-label">
+
+            Promotion Recommended
+
+        </label>
+
+    </div>
+
+    <button type="submit"
+            class="btn btn-primary">
+
+        Update Review
+
+    </button>
+
+    <a asp-action="Index"
+       class="btn btn-secondary">
+
+        Back
+
+    </a>
+
+</form>

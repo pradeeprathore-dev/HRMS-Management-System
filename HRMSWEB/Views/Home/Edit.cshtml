@@ -1,0 +1,103 @@
+﻿@model HRMSWEB.Models.CreateEmployeeViewModel
+
+<h2>Edit Employee</h2>
+
+<form asp-action="Edit" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div>
+        <label>First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Email</label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Department</label>
+
+        <select asp-for="DepartmentId"
+                asp-items="Model.Departments"
+                class="form-control">
+
+            <option value="">
+                Select Department
+            </option>
+
+        </select>
+
+        <span asp-validation-for="DepartmentId"
+              class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Designation</label>
+
+        <select asp-for="DesignationId"
+                asp-items="Model.Designations"
+                class="form-control">
+
+            <option value="">
+                Select Designation
+            </option>
+
+        </select>
+
+        <span asp-validation-for="DesignationId"
+              class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Shift</label>
+
+        <select asp-for="ShiftId"
+                asp-items="Model.Shifts"
+                class="form-control">
+
+            <option value="">
+                Select Shift
+            </option>
+
+        </select>
+
+        <span asp-validation-for="ShiftId"
+              class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Salary</label>
+        <input asp-for="Salary" class="form-control" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Update
+    </button>
+
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <h3>@ViewBag.Error</h3>
+}

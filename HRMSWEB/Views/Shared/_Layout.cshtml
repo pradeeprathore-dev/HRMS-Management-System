@@ -1,0 +1,447 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    var role =
+        Context.Session.GetString("Role");
+
+    var employeeId =
+        Context.Session.GetInt32("EmployeeId");
+}
+@using Microsoft.AspNetCore.Routing
+
+@{
+    var currentController =
+        ViewContext.RouteData.Values["controller"]?.ToString();
+
+    var currentAction =
+        ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+
+    <title>
+        HRMS SYSTEM
+    </title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+          <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR -->
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold"
+           asp-controller="Home"
+           asp-action="Dashboard">
+
+            <i class="bi bi-buildings-fill me-2"></i>
+
+            HRMS
+
+        </a>
+
+        <div class="d-flex align-items-center">
+
+            <!-- Notification -->
+
+            @await Component.InvokeAsync("NotificationBell")
+
+            <!-- User -->
+
+            <span class="text-white me-3">
+
+                <i class="bi bi-person-circle"></i>
+
+                @if(role=="1")
+                {
+                    <text>Admin</text>
+                }
+                else
+                {
+                    <text>Employee</text>
+                }
+
+            </span>
+          
+
+            <!-- Logout -->
+
+            <a class="btn btn-outline-light"
+               asp-controller="Auth"
+               asp-action="Logout">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <!-- SIDEBAR -->
+
+            <div class="col-2 bg-white border-end shadow-sm"
+                 style="min-height:100vh;">
+
+                <br />
+
+                <ul class="nav flex-column pt-2">
+
+                    <!-- DASHBOARD -->
+
+                   @if (role == "1")
+{
+    <li class="nav-item">
+
+        <a class="nav-link py-2 @(currentController=="Home" && currentAction=="Dashboard" ? "active bg-primary text-white rounded" : "text-dark")"
+           asp-controller="Home"
+           asp-action="Dashboard">
+
+            <i class="bi bi-house-door-fill me-2"></i>
+            Dashboard
+
+        </a>
+
+    </li>
+}
+
+                    <!-- EMPLOYEES -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link py-2 @(currentController=="Home" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+                           asp-controller="Home"
+                           asp-action="Index">
+
+                            <i class="bi bi-people-fill me-2"></i>
+                            Employees
+
+                        </a>
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <!-- EMPLOYEE DOCUMENTS -->
+<li class="nav-item">
+    <a class="nav-link py-2 @(currentController=="EmployeeDocument" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="EmployeeDocument"
+       asp-action="Index">
+        <i class="bi bi-file-earmark-text-fill me-2"></i>
+        Employee Documents
+    </a>
+</li>
+
+<!-- EMPLOYEE ONBOARDING -->
+<li class="nav-item">
+    <a class="nav-link py-2 @(currentController=="EmployeeOnboarding" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="EmployeeOnboarding"
+       asp-action="Index">
+        <i class="bi bi-person-workspace me-2"></i>
+        Employee Onboarding
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link py-2 @(currentController=="ITAsset" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="ITAsset"
+       asp-action="Index">
+        <i class="bi bi-pc-display"></i>
+        My IT Assets
+    </a>
+</li>
+
+<!-- APPLY LEAVE -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link py-2 @(currentController=="Leave" && currentAction=="Apply" ? "active bg-primary text-white rounded" : "text-dark")"
+                           asp-controller="Leave"
+                           asp-action="Apply">
+
+                            <i class="bi bi-pencil-square me-2"></i>
+Apply Leave
+
+                        </a>
+
+                    </li>
+
+                    <!-- MY LEAVES -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link py-2 @(currentController=="Leave" && currentAction=="MyLeaves" ? "active bg-primary text-white rounded" : "text-dark")"
+                           asp-controller="Leave"
+                           asp-action="MyLeaves"
+                           asp-route-employeeId="@employeeId">
+
+                           <i class="bi bi-file-earmark-text-fill me-2"></i>
+My Leaves
+
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+
+   <a class="nav-link py-2 @(currentController=="Home" && currentAction=="Profile" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="Home"
+       asp-action="Profile"
+       asp-route-id="@employeeId">
+
+        <i class="bi bi-pencil-square me-2"></i>My Profile
+
+    </a>
+
+</li>
+
+                    <!-- ATTENDANCE -->
+
+                    <li class="nav-item">
+
+                        <a class="nav-link py-2 @(currentController=="Attendance" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+                           asp-controller="Attendance"
+                           asp-action="Index"
+                           asp-route-employeeId="@employeeId">
+
+                            <i class="bi bi-calendar-check-fill me-2"></i>
+                      Attendance
+
+                        </a>
+
+                    </li>
+
+                    <!-- MY PAYROLLS -->
+
+                    <li class="nav-item">
+
+                       <a class="nav-link py-2 @(currentController=="Payroll" && currentAction=="MyPayrolls" ? "active bg-primary text-white rounded" : "text-dark")"
+                           asp-controller="Payroll"
+                           asp-action="MyPayrolls"
+                           asp-route-employeeId="@employeeId">
+
+                            <i class="bi bi-cash-stack me-2"></i>
+My Payrolls
+
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+
+    <a class="nav-link py-2 @(currentController=="Notification" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="Notification"
+       asp-action="Index">
+
+        <i class="bi bi-bell-fill me-2"></i>
+Notifications
+
+    </a>
+
+</li>
+
+                    @if (role == "1")
+                    {
+                        <!-- CREATE EMPLOYEE -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link py-2 @(currentController=="Home" && currentAction=="Create" ? "active bg-primary text-white rounded" : "text-dark")  "
+                               asp-controller="Home"
+                               asp-action="Create">
+
+                                <i class="bi bi-person-plus-fill me-2"></i>
+Create Employee
+
+                            </a>
+
+                        </li>
+
+                        <!-- DEPARTMENTS -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link py-2 @(currentController=="Department" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+                               asp-controller="Department"
+                               asp-action="Index">
+
+                                <i class="bi bi-building-fill me-2"></i>
+Departments
+
+                            </a>
+
+                        </li>
+
+                        <!-- LEAVE REQUESTS -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link py-2 @(currentController=="Leave" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+                               asp-controller="Leave"
+                               asp-action="Index">
+
+                                <i class="bi bi-pencil-square me-2"></i>Leave Requests
+
+                            </a>
+
+                        </li>
+
+                        <!-- GENERATE PAYROLL -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link py-2 @(currentController=="Payroll" && currentAction=="Create" ? "active bg-primary text-white rounded" : "text-dark")"
+                               asp-controller="Payroll"
+                               asp-action="Create">
+
+                                <i class="bi bi-wallet2 me-2"></i>
+Generate Payroll
+
+                            </a>
+
+                        </li>
+
+                        <!-- PAYROLL LIST -->
+
+                        <li class="nav-item">
+
+                            <a class="nav-link py-2 @(currentController=="Payroll" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+                               asp-controller="Payroll"
+                               asp-action="Index">
+
+                                <i class="bi bi-receipt-cutoff me-2"></i>
+Payroll List
+
+                            </a>
+
+                        </li>
+                        <li class="nav-item">
+
+    <a class="nav-link py-2 @(currentController=="Holiday" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="Holiday"
+       asp-action="Index">
+
+        <i class="bi bi-pencil-square me-2"></i>Holidays
+
+    </a>
+
+</li>
+
+                       <li class="nav-item">
+
+    <a class="nav-link py-2 @(currentController=="Performance" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="Performance"
+       asp-action="Index">
+
+        <i class="bi bi-graph-up-arrow me-2"></i>
+Performance
+
+    </a>
+
+</li>
+<li class="nav-item">
+
+    <a class="nav-link py-2 @(currentController=="ITAsset" && currentAction=="Index" ? "active bg-primary text-white rounded" : "text-dark")"
+       asp-controller="ITAsset"
+       asp-action="Index">
+
+        <i class="bi bi-pc-display-horizontal me-2"></i>
+
+        IT Assets
+
+    </a>
+
+</li>
+
+                    }
+
+                </ul>
+
+            </div>
+
+
+            <!-- PAGE CONTENT -->
+
+            <div class="col-10">
+
+                <br />
+
+                @RenderBody()
+
+            </div>
+
+        </div>
+
+    </div>
+    {
+   
+
+    <!-- SCRIPTS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync(
+            "Scripts",
+            required: false)
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]',
+            confirmButtonColor: '#0d6efd'
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Operation Failed',
+            text: '@TempData["Error"]',
+            confirmButtonColor: '#dc3545'
+        });
+    </script>
+}
+
+</body>
+
+</html>

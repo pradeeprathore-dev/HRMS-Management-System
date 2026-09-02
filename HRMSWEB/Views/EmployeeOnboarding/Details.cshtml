@@ -1,0 +1,348 @@
+﻿@model HRMSWEB.Models.EmployeeOnboardingViewModel
+
+@{
+    ViewData["Title"] = "Employee Onboarding Details";
+}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-info text-white">
+
+            <h3>
+
+                <i class="bi bi-person-vcard-fill"></i>
+
+                Employee Onboarding Details
+
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+
+                        Employee
+
+                    </label>
+
+                    <div class="form-control">
+
+                        @Model.EmployeeName
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+
+                        Joining Date
+
+                    </label>
+
+                    <div class="form-control">
+
+                        @Model.JoiningDate.ToString("dd-MMM-yyyy")
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+
+                        Official Email
+
+                    </label>
+
+                    <div class="form-control">
+
+                        @Model.OfficialEmail
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="fw-bold">
+
+                        Seat Number
+
+                    </label>
+
+                    <div class="form-control">
+
+                        @Model.SeatNumber
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        Credentials Created
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.CredentialsCreated)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        Documents Verified
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.DocumentsVerified)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        Laptop Allocated
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.LaptopAllocated)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        Manager Assigned
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.ManagerAssigned)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        Project Assigned
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.ProjectAssigned)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="fw-bold">
+
+                        ID Card Generated
+
+                    </label>
+
+                    <br />
+
+                    @if (Model.IdCardGenerated)
+                    {
+                        <span class="badge bg-success">
+
+                            Yes
+
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">
+
+                            No
+
+                        </span>
+                    }
+
+                </div>
+
+            </div>
+
+            <hr />
+
+            <div class="mb-4">
+
+                <label class="fw-bold">
+
+                    Overall Progress
+
+                </label>
+
+                <div class="progress mt-2" style="height:30px;">
+
+                    <div class="progress-bar
+                        @(Model.Progress == 100 ? "bg-success" : "bg-primary")"
+                         role="progressbar"
+                         style="width:@Model.Progress%">
+
+                        @Model.Progress %
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="fw-bold">
+
+                    Status
+
+                </label>
+
+                <br />
+
+                @if (Model.IsCompleted)
+                {
+                    <span class="badge bg-success fs-6">
+
+                        Completed
+
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-warning text-dark fs-6">
+
+                        Pending
+
+                    </span>
+                }
+
+            </div>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                <i class="bi bi-arrow-left-circle-fill"></i>
+
+                Back
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

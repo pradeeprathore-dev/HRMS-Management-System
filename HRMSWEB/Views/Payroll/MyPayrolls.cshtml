@@ -1,0 +1,81 @@
+﻿@model List<HRMSWEB.Models.PayrollViewModel>
+
+<h2>My Payrolls</h2>
+
+<table class="table table-bordered">
+
+    <thead>
+
+        <tr>
+
+            <th>Month</th>
+
+            <th>Year</th>
+
+            <th>Basic</th>
+
+            <th>HRA</th>
+
+            <th>Bonus</th>
+
+            <th>Deduction</th>
+
+            <th>Net Salary</th>
+            <th>Action</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.Month
+                </td>
+
+                <td>
+                    @item.Year
+                </td>
+
+                <td>
+                    @item.BasicSalary
+                </td>
+
+                <td>
+                    @item.HRA
+                </td>
+
+                <td>
+                    @item.Bonus
+                </td>
+
+                <td>
+                    @item.Deduction
+                </td>
+
+                <td>
+                    @item.NetSalary
+                </td>
+                <td>
+
+                    <a class="btn btn-primary btn-sm"
+                       asp-controller="Payroll"
+                       asp-action="DownloadPayslip"
+                       asp-route-id="@item.Id">
+
+                        Download Payslip
+
+                    </a>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

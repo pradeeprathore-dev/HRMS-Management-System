@@ -1,0 +1,88 @@
+﻿@model HRMSWEB.Models.CreateEmployeeDocumentViewModel
+
+@{
+    ViewData["Title"] = "Upload Document";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Upload Employee Document</h2>
+
+    <form asp-action="Create"
+          method="post"
+          enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label class="form-label">Employee</label>
+
+            <select asp-for="EmployeeId"
+                    asp-items="Model.Employees"
+                    class="form-select">
+
+                <option value="">-- Select Employee --</option>
+
+            </select>
+
+            <span asp-validation-for="EmployeeId"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="DocumentType"
+                   class="form-label"></label>
+
+            <input asp-for="DocumentType"
+                   class="form-control" />
+
+            <span asp-validation-for="DocumentType"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">Document</label>
+
+            <input asp-for="File"
+                   type="file"
+                   class="form-control" />
+
+            <span asp-validation-for="File"
+                  class="text-danger"></span>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label asp-for="Remarks"
+                   class="form-label"></label>
+
+            <textarea asp-for="Remarks"
+                      rows="3"
+                      class="form-control"></textarea>
+
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+
+            Upload
+
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </form>
+
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,228 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<HRMSWEB.Models.ITAssetViewModel>
+
+@{
+    ViewData["Title"] = "IT Assets";
+    var role = Context.Session.GetString("Role");
+}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h2 class="fw-bold">
+            <i class="bi bi-pc-display text-primary"></i>
+            IT Assets
+        </h2>
+
+        @if (role == "1")
+        {
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                Add IT Asset
+            </a>
+        }
+
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-2 mb-3">
+
+        <div class="col-md-4">
+
+            <input type="text"
+                   name="searchText"
+                   value="@ViewBag.SearchText"
+                   class="form-control"
+                   placeholder="Search Asset..." />
+
+        </div>
+
+        <div class="col-auto">
+
+            <button class="btn btn-success">
+
+                <i class="bi bi-search"></i>
+
+                Search
+
+            </button>
+
+        </div>
+
+        <div class="col-auto">
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+
+                Reset
+
+            </a>
+
+        </div>
+
+    </form>
+
+    <div class="card shadow">
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover table-bordered align-middle mb-0">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Asset</th>
+
+                        <th>Type</th>
+
+                        <th>Code</th>
+
+                        <th>Brand</th>
+
+                        <th>Model</th>
+
+                        <th>Serial No.</th>
+
+                        <th>Employee</th>
+
+                        <th>Purchase Date</th>
+
+                        <th>Price</th>
+
+                        <th>Status</th>
+
+                        @if (role == "1")
+                        {
+                            <th width="160">
+                                Action
+                            </th>
+                        }
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null && Model.Any())
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>@item.Id</td>
+
+                                <td>@item.AssetName</td>
+
+                                <td>@item.AssetType</td>
+
+                                <td>@item.AssetCode</td>
+
+                                <td>@item.Brand</td>
+
+                                <td>@item.Model</td>
+
+                                <td>@item.SerialNumber</td>
+
+                                <td>@item.EmployeeName</td>
+
+                                <td>
+
+                                    @item.PurchaseDate.ToString("dd MMM yyyy")
+
+                                </td>
+
+                                <td>
+
+                                    ₹ @item.PurchasePrice
+
+                                </td>
+
+                                <td>
+
+                                    @if (item.Status == "Assigned")
+                                    {
+                                        <span class="badge bg-success">
+                                            Assigned
+                                        </span>
+                                    }
+                                    else if (item.Status == "Available")
+                                    {
+                                        <span class="badge bg-primary">
+                                            Available
+                                        </span>
+                                    }
+                                    else if (item.Status == "Repair")
+                                    {
+                                        <span class="badge bg-warning text-dark">
+                                            Repair
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">
+                                            @item.Status
+                                        </span>
+                                    }
+
+                                </td>
+
+                                @if (role == "1")
+                                {
+                                    <td>
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.Id"
+                                           class="btn btn-warning btn-sm">
+
+                                            <i class="bi bi-pencil-square"></i>
+
+                                        </a>
+
+                                        <form asp-action="Delete"
+                                              asp-route-id="@item.Id"
+                                              method="post"
+                                              style="display:inline;">
+
+                                            <button type="submit"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Delete this IT Asset?');">
+
+                                                <i class="bi bi-trash"></i>
+
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td colspan="@(role == "1" ? 12 : 11)"
+                                class="text-center text-danger fw-bold">
+
+                                No IT Assets Found.
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

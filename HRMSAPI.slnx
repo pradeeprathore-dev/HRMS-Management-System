@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="Entites/Entites.csproj" />
+  <Project Path="Helpers/Helpers.csproj" />
+  <Project Path="HRMSAPI/HRMSAPI.csproj" />
+  <Project Path="HRMSWEB/HRMSWEB.csproj" />
+  <Project Path="Utilites/Utilites.csproj" />
+</Solution>

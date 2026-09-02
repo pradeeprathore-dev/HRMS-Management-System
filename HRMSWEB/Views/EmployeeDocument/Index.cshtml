@@ -1,0 +1,132 @@
+﻿@model List<HRMSWEB.Models.EmployeeDocumentViewModel>
+
+@{
+    ViewData["Title"] = "Employee Documents";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+
+        <h2>Employee Documents</h2>
+
+        <a asp-action="Create"
+           class="btn btn-primary">
+
+            Upload Document
+
+        </a>
+
+    </div>
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Employee</th>
+
+                <th>Document Type</th>
+
+                <th>File Name</th>
+
+                <th>Verified</th>
+
+                <th>Uploaded</th>
+
+                <th width="220">Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@item.EmployeeName</td>
+
+                        <td>@item.DocumentType</td>
+
+                        <td>@item.FileName</td>
+
+                        <td>
+
+                            @if (item.IsVerified)
+                            {
+                                <span class="badge bg-success">
+                                    Verified
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    Pending
+                                </span>
+                            }
+
+                        </td>
+
+                        <td>
+                            @item.UploadedDate.ToString("dd-MMM-yyyy")
+                        </td>
+
+                        <td>
+
+                            <a asp-action="Preview"
+                               asp-route-id="@item.Id"
+                               class="btn btn-info btn-sm">
+
+                                Preview
+
+                            </a>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="btn btn-warning btn-sm">
+
+                                Edit
+
+                            </a>
+
+                            <form asp-action="Delete"
+                                  asp-route-id="@item.Id"
+                                  method="post"
+                                  style="display:inline;">
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+
+                    <td colspan="6"
+                        class="text-center">
+
+                        No Documents Found
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
