@@ -46,7 +46,11 @@ namespace HRMSAPI.Services
 
         Department = emp.Department?.Name,
 
+        DepartmentId = emp.DepartmentId,
+
         Designation = emp.Designation?.Title,
+
+        DesignationId = emp.DesignationId,
 
         Salary = emp.Salary,
 
@@ -80,10 +84,16 @@ namespace HRMSAPI.Services
                 Email = employee.Email,
 
                 Department =
-        employee.Department?.Name,
+    employee.Department?.Name,
+
+                DepartmentId =
+    employee.DepartmentId,
 
                 Designation =
-        employee.Designation?.Title,
+    employee.Designation?.Title,
+
+                DesignationId =
+    employee.DesignationId,
 
                 Salary = employee.Salary,
 

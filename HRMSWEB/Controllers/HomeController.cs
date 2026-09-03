@@ -397,13 +397,14 @@ namespace HRMSWEB.Controllers
                     ?? new List<DepartmentViewModel>();
 
                 employee.Departments =
-     departments.Select(x =>
-         new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-         {
-             Value = x.Id.ToString(),
-             Text = x.Name
-         })
-     .ToList();
+                    departments.Select(x =>
+                        new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Name,
+                            Selected = employee.DepartmentId == x.Id
+                        })
+                    .ToList();
             }
 
             // =========================
@@ -425,13 +426,14 @@ namespace HRMSWEB.Controllers
                     ?? new List<DesignationViewModel>();
 
                 employee.Designations =
-    designations.Select(x =>
-        new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
-        {
-            Value = x.Id.ToString(),
-            Text = x.Title
-        })
-    .ToList();
+                    designations.Select(x =>
+                        new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                        {
+                            Value = x.Id.ToString(),
+                            Text = x.Title,
+                            Selected = employee.DesignationId == x.Id
+                        })
+                    .ToList();
             }
 
             // =========================
@@ -533,7 +535,6 @@ namespace HRMSWEB.Controllers
         // =========================
         // DELETE EMPLOYEE
         // =========================
-
         public async Task<IActionResult> Delete(int id)
         {
             // TOKEN

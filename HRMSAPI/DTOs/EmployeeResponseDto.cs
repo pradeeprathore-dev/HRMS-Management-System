@@ -11,8 +11,10 @@
         public string Email { get; set; }
 
         public string Department { get; set; }
+        public int DepartmentId { get; set; }
 
         public string Designation { get; set; }
+        public int DesignationId { get; set; }
 
         public decimal Salary { get; set; }
 
