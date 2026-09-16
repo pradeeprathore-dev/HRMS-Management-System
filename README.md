@@ -250,29 +250,33 @@ Upcoming Holidays
 
 Dashboard Charts
 
-📸 Screenshots
+## 📸 Screenshots
 
-🔐 Login
+### 🔐 Login
 
+![Login](docs/screenshots/login.png)
 
+### 📊 Dashboard
 
-📊 Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
 
+### 👥 Employee Management
 
+![Employee Management](docs/screenshots/employees.png)
 
-👥 Employee Management
+### 🕒 Attendance Management
 
+![Attendance Management](docs/screenshots/attendance.png)
 
+### 🏖️ Leave Management
 
-🕒 Attendance Management
+![Leave Management](docs/screenshots/leave.png)
 
+### 💰 Payroll Management
 
+![Payroll Management](docs/screenshots/payroll.png)
 
-🏖️ Leave Management
-
-
-
-💰 Payroll Management
+---
 
 
 
