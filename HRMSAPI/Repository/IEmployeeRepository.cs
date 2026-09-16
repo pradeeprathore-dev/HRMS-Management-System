@@ -5,7 +5,8 @@ namespace HRMSAPI.Repository.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<List<Employee>> GetAll(PaginationDto paginationDto);
+        Task<(List<Employee> Employees, int TotalCount)> GetAll(
+     PaginationDto paginationDto);
 
         Task<Employee?> GetById(int id);
 

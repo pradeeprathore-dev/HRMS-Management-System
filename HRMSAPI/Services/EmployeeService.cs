@@ -29,37 +29,61 @@ namespace HRMSAPI.Services
 
         // ✅ GET ALL
 
-        public async Task<List<EmployeeResponseDto>> GetAll(
-            PaginationDto paginationDto)
+        public async Task<PaginationResponseDto<EmployeeResponseDto>> GetAll(
+    PaginationDto paginationDto)
         {
-            var employees =
+            var result =
                 await _repository.GetAll(
                     paginationDto);
 
-            return employees.Select(emp =>
-    new EmployeeResponseDto
-    {
-        Id = emp.Id,
-        FirstName = emp.FirstName,
-        LastName = emp.LastName,
-        Email = emp.Email,
+            var employees =
+                result.Employees.Select(emp =>
+                    new EmployeeResponseDto
+                    {
+                        Id = emp.Id,
 
-        Department = emp.Department?.Name,
+                        FirstName = emp.FirstName,
 
-        DepartmentId = emp.DepartmentId,
+                        LastName = emp.LastName,
 
-        Designation = emp.Designation?.Title,
+                        Email = emp.Email,
 
-        DesignationId = emp.DesignationId,
+                        Department = emp.Department?.Name,
 
-        Salary = emp.Salary,
+                        DepartmentId = emp.DepartmentId,
 
-        ProfileImage = emp.ProfileImage,
+                        Designation = emp.Designation?.Title,
 
-        ShiftId = emp.ShiftId,
+                        DesignationId = emp.DesignationId,
 
-        ShiftName = emp.Shift?.ShiftName
-    }).ToList();
+                        Salary = emp.Salary,
+
+                        ProfileImage = emp.ProfileImage,
+
+                        ShiftId = emp.ShiftId,
+
+                        ShiftName = emp.Shift?.ShiftName
+                    }).ToList();
+
+            var totalPages =
+                paginationDto.PageSize > 0
+                    ? (int)Math.Ceiling(
+                        result.TotalCount /
+                        (double)paginationDto.PageSize)
+                    : 0;
+
+            return new PaginationResponseDto<EmployeeResponseDto>
+            {
+                Data = employees,
+
+                PageNumber = paginationDto.PageNumber,
+
+                PageSize = paginationDto.PageSize,
+
+                TotalCount = result.TotalCount,
+
+                TotalPages = totalPages
+            };
         }
 
         // ✅ GET BY ID

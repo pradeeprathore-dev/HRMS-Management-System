@@ -4,7 +4,9 @@ namespace HRMSAPI.Services
 {
     public interface IEmployeeService
     {
-        Task<List<EmployeeResponseDto>> GetAll(PaginationDto paginationDto);
+        //Task<List<EmployeeResponseDto>> GetAll(PaginationDto paginationDto);
+        Task<PaginationResponseDto<EmployeeResponseDto>> GetAll(
+    PaginationDto paginationDto);
 
         Task<EmployeeResponseDto?> GetById(int id);
 
@@ -14,5 +16,6 @@ namespace HRMSAPI.Services
 
         Task<bool> Delete(int id);
         Task<List<EmployeeDropdownDto>> GetAllForDropdown();
+
     }
 }

@@ -72,6 +72,11 @@ namespace HRMSWEB.Controllers
                     "Bearer",
                     token);
 
+            if (pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+
             // API CALL WITH SEARCH + PAGINATION
             var response =
                 await client.GetAsync(
@@ -89,20 +94,45 @@ namespace HRMSWEB.Controllers
 
             // DESERIALIZE
             dynamic result =
-                JsonConvert.DeserializeObject(jsonData);
+    JsonConvert.DeserializeObject(jsonData);
 
-            // GET DATA
-            var employeeData =
-                JsonConvert.DeserializeObject
-                <List<EmployeeViewModel>>
-                (result.data.ToString());
+            var paginationData =
+                JsonConvert.DeserializeObject<EmployeePaginationViewModel>(
+                    result.data.ToString());
 
-            // VIEWBAG
+            if (paginationData.TotalPages > 0 &&
+    pageNumber > paginationData.TotalPages)
+            {
+                return RedirectToAction(
+                    "Index",
+                    new
+                    {
+                        searchText = searchText,
+                        pageNumber = paginationData.TotalPages
+                    });
+            }
+
             ViewBag.SearchText = searchText;
-            ViewBag.PageNumber = pageNumber;
 
-            // RETURN VIEW
-            return View(employeeData);
+            ViewBag.PageNumber =
+                paginationData.PageNumber;
+
+            ViewBag.PageSize =
+                paginationData.PageSize;
+
+            ViewBag.TotalCount =
+                paginationData.TotalCount;
+
+            ViewBag.TotalPages =
+                paginationData.TotalPages;
+
+            ViewBag.HasPrevious =
+                paginationData.HasPrevious;
+
+            ViewBag.HasNext =
+                paginationData.HasNext;
+
+            return View(paginationData.Data);
         }
 
         // =========================
@@ -535,6 +565,7 @@ namespace HRMSWEB.Controllers
         // =========================
         // DELETE EMPLOYEE
         // =========================
+
         public async Task<IActionResult> Delete(int id)
         {
             // TOKEN

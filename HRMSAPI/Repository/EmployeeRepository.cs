@@ -19,13 +19,14 @@ namespace HRMSAPI.Repository
         // GET ALL
         // =========================
 
-        public async Task<List<Employee>> GetAll(PaginationDto paginationDto)
+        public async Task<(List<Employee> Employees, int TotalCount)> GetAll(
+    PaginationDto paginationDto)
         {
             var query = _context.Employees
-    .Include(e => e.Department)
-    .Include(e => e.Designation)
-    .Include(e => e.Shift)
-    .AsQueryable();
+                .Include(e => e.Department)
+                .Include(e => e.Designation)
+                .Include(e => e.Shift)
+                .AsQueryable();
 
             // =========================
             // SEARCH
@@ -48,6 +49,12 @@ namespace HRMSAPI.Repository
                 query = query.Where(e =>
                     e.DepartmentId == paginationDto.DepartmentId.Value);
             }
+
+            // =========================
+            // TOTAL COUNT
+            // =========================
+
+            var totalCount = await query.CountAsync();
 
             // =========================
             // SORTING
@@ -79,10 +86,12 @@ namespace HRMSAPI.Repository
             // PAGINATION
             // =========================
 
-            return await query
+            var employees = await query
                 .Skip((paginationDto.PageNumber - 1) * paginationDto.PageSize)
                 .Take(paginationDto.PageSize)
                 .ToListAsync();
+
+            return (employees, totalCount);
         }
 
         // =========================
