@@ -73,14 +73,33 @@ namespace HRMSAPI.Controllers
         [HttpGet("Employee/{employeeId}")]
         public async Task<IActionResult> GetByEmployeeId(int employeeId)
         {
-            var data = await _service.GetByEmployeeId(employeeId);
-
-            return Ok(new ApiResponse<object>
+            if (User.IsInRole("2"))
             {
-                Success = true,
-                Message = "Employee performance fetched successfully",
-                Data = data
-            });
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
+            var data =
+                await _service.GetByEmployeeId(employeeId);
+
+            return Ok(
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Employee performance fetched successfully",
+                    Data = data
+                });
         }
 
         // =========================

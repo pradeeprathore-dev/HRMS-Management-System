@@ -337,6 +337,23 @@ namespace HRMSAPI.Controllers
         public async Task<IActionResult> MyPayrolls(
             int employeeId)
         {
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
             var data =
                 await _context.Payrolls
                 .Include(x => x.Employee)
