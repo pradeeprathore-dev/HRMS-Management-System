@@ -73,8 +73,25 @@ namespace HRMSAPI.Controllers
         [Authorize(Roles = "1,2")]
         [HttpGet("Employee/{employeeId}")]
         public async Task<IActionResult> GetByEmployeeId(
-            int employeeId)
+    int employeeId)
         {
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
             var data =
                 await _service.GetByEmployeeId(employeeId);
 

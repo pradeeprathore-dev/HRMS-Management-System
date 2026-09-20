@@ -118,26 +118,5 @@ namespace HRMSAPI.Repository
                 .Take(5)
                 .ToListAsync();
         }
-        //    public async Task<List<NotificationResponseDto>> GetLatest(
-        //int employeeId)
-        //    {
-        //        var data =
-        //            await _repository.GetLatest(employeeId);
-
-        //        return data.Select(x =>
-        //            new NotificationResponseDto
-        //            {
-        //                Id = x.Id,
-
-        //                EmployeeId = x.EmployeeId,
-
-        //                Title = x.Title,
-
-        //                Message = x.Message,
-
-        //                IsRead = x.IsRead
-        //            }).ToList();
-        //    }
-
     }
 }
