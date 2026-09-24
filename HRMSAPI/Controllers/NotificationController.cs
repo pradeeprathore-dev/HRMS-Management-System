@@ -129,28 +129,50 @@ namespace HRMSAPI.Controllers
 
         [Authorize(Roles = "1,2")]
         [HttpPut("MarkAsRead/{id}")]
-        public async Task<IActionResult> MarkAsRead(
-            int id)
+        public async Task<IActionResult> MarkAsRead(int id)
         {
+            int? employeeId = null;
+
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out var currentEmployeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+
+                employeeId = currentEmployeeId;
+            }
+
             var result =
-                await _service.MarkAsRead(id);
+                await _service.MarkAsRead(id, employeeId);
 
             if (!result)
             {
-                return NotFound(new ApiResponse<object>
-                {
-                    Success = false,
-                    Message = "Notification not found",
-                    Data = null
-                });
+                return NotFound(
+                    new ApiResponse<object>
+                    {
+                        Success = false,
+                        Message = "Notification not found or access denied",
+                        Data = null
+                    });
             }
 
-            return Ok(new ApiResponse<object>
-            {
-                Success = true,
-                Message = "Notification marked as read",
-                Data = null
-            });
+            return Ok(
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Notification marked as read",
+                    Data = null
+                });
         }
 
         // =========================
@@ -189,17 +211,35 @@ namespace HRMSAPI.Controllers
         [Authorize(Roles = "1,2")]
         [HttpGet("UnreadCount/{employeeId}")]
         public async Task<IActionResult> UnreadCount(
-            int employeeId)
+    int employeeId)
         {
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
             var data =
                 await _service.GetUnreadCount(employeeId);
 
-            return Ok(new ApiResponse<object>
-            {
-                Success = true,
-                Message = "Unread notification count fetched successfully",
-                Data = data
-            });
+            return Ok(
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Unread notification count fetched successfully",
+                    Data = data
+                });
         }
         // =========================
         // LATEST 5 NOTIFICATIONS
@@ -208,17 +248,35 @@ namespace HRMSAPI.Controllers
         [Authorize(Roles = "1,2")]
         [HttpGet("Latest/{employeeId}")]
         public async Task<IActionResult> Latest(
-            int employeeId)
+    int employeeId)
         {
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
             var data =
                 await _service.GetLatest(employeeId);
 
-            return Ok(new ApiResponse<object>
-            {
-                Success = true,
-                Message = "Latest notifications fetched successfully",
-                Data = data
-            });
+            return Ok(
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Latest notifications fetched successfully",
+                    Data = data
+                });
         }
         // =========================
         // BELL DATA
@@ -226,18 +284,35 @@ namespace HRMSAPI.Controllers
 
         [Authorize(Roles = "1,2")]
         [HttpGet("Bell/{employeeId}")]
-        public async Task<IActionResult> Bell(
-            int employeeId)
+        public async Task<IActionResult> Bell(int employeeId)
         {
+            if (User.IsInRole("2"))
+            {
+                var employeeIdClaim =
+                    User.FindFirst("EmployeeId")?.Value;
+
+                if (!int.TryParse(employeeIdClaim, out employeeId))
+                {
+                    return Unauthorized(
+                        new ApiResponse<object>
+                        {
+                            Success = false,
+                            Message = "Employee identity not found in token",
+                            Data = null
+                        });
+                }
+            }
+
             var data =
                 await _service.GetBellData(employeeId);
 
-            return Ok(new ApiResponse<object>
-            {
-                Success = true,
-                Message = "Bell data fetched successfully",
-                Data = data
-            });
+            return Ok(
+                new ApiResponse<object>
+                {
+                    Success = true,
+                    Message = "Bell data fetched successfully",
+                    Data = data
+                });
         }
     }
 }

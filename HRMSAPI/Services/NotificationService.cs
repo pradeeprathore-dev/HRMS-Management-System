@@ -166,13 +166,22 @@ namespace HRMSAPI.Services
         // MARK AS READ
         // =========================
 
-        public async Task<bool> MarkAsRead(int id)
+        public async Task<bool> MarkAsRead(
+    int id,
+    int? employeeId)
         {
             var notification =
                 await _repository.GetById(id);
 
             if (notification == null)
                 return false;
+
+            // Employee can modify only own notification
+            if (employeeId.HasValue &&
+                notification.EmployeeId != employeeId.Value)
+            {
+                return false;
+            }
 
             notification.IsRead = true;
 

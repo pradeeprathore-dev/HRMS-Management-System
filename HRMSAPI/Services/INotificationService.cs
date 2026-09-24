@@ -12,7 +12,7 @@ namespace HRMSAPI.Services
 
         Task<NotificationResponseDto> Create(CreateNotificationDto dto);
 
-        Task<bool> MarkAsRead(int id);
+        Task<bool> MarkAsRead(int id, int? employeeId);
 
         Task<bool> Delete(int id);
         Task<int> GetUnreadCount(int employeeId);
