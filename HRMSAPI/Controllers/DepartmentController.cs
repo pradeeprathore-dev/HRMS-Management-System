@@ -3,9 +3,11 @@ using HRMSAPI.Data;
 using HRMSAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRMSAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentController : ControllerBase
@@ -60,7 +62,7 @@ namespace HRMSAPI.Controllers
         // =========================
         // CREATE
         // =========================
-
+        [Authorize(Roles = "1")]
         [HttpPost]
         public async Task<IActionResult> Create(
             CreateDepartmentDto dto)
@@ -86,7 +88,7 @@ namespace HRMSAPI.Controllers
         // =========================
         // UPDATE
         // =========================
-
+        [Authorize(Roles = "1")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
             int id,
@@ -108,7 +110,7 @@ namespace HRMSAPI.Controllers
         // =========================
         // DELETE
         // =========================
-
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
